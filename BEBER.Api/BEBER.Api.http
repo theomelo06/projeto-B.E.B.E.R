@@ -1,0 +1,6 @@
+@BEBER.Api_HostAddress = http://localhost:5090
+
+GET {{BEBER.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

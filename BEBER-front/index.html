@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BEBER</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>BEBER</h1>
+    <p>Selecione os ingredientes da sua bebida.</p>
+
+    <label for="whey">Whey (g)</label>
+    <input id="whey" type="number" min="0" value="30">
+
+    <label for="agua">Água (mL)</label>
+    <input id="agua" type="number" min="1" value="300">
+
+    <button id="preparar">Preparar</button>
+    <p id="status">Aguardando comando</p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
