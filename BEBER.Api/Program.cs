@@ -1,3 +1,6 @@
+using BEBER.Api;
+using BEBER.Api.Classes;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -15,13 +18,24 @@ var app = builder.Build();
 
 app.UseCors("FrontLocal");
 
-app.MapPost("/api/receitas", (ReceitaRequest receita) =>
+app.MapPost("/api/receita-personalizada", (ReceitaRequest request) =>
 {
-    if (receita.WheyGramas < 0 || receita.AguaMl <= 0)
+    var receita = new ReceitaPersonalizadaRequest(
+        request.WheyGramas,
+        request.AguaMl,
+        request.LeiteNinhoGramas,
+        request.Sabor
+    );
+
+    try
+    {
+        receita.Confere();
+    }
+    catch (ArgumentException erro)
     {
         return Results.BadRequest(new
         {
-            mensagem = "Informe quantidades válidas."
+            mensagem = erro.Message
         });
     }
 
@@ -29,10 +43,12 @@ app.MapPost("/api/receitas", (ReceitaRequest receita) =>
     {
         mensagem = "Receita recebida pela API.",
         wheyGramas = receita.WheyGramas,
-        aguaMl = receita.AguaMl
+        aguaMl = receita.AguaMl,
+        leiteNinhoGramas = receita.LeiteNinhoGramas,
+        Sabor = receita.Sabor
     });
 });
 
 app.Run();
 
-record ReceitaRequest(decimal WheyGramas, int AguaMl);
+public record ReceitaRequest(int WheyGramas, int AguaMl, int LeiteNinhoGramas, Sabores Sabor);

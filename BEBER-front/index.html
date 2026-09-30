@@ -3,24 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BEBER</title>
+  <title>BEBER | Sua bebida, do seu jeito</title>
   <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
 </head>
+
 <body>
-  <main>
-    <h1>BEBER</h1>
-    <p>Selecione os ingredientes da sua bebida.</p>
+  <main class="container">
+    <header class="cabecalho">
+      <a class="marca" href="./index.html" aria-label="BEBER início">
+        BEBER<span>.</span>
+      </a>
+      <span class="etiqueta">Bebida personalizada</span>
+    </header>
 
-    <label for="whey">Whey (g)</label>
-    <input id="whey" type="number" min="0" value="30">
+    <section class="introducao">
+      <p class="destaque">FEITA PARA VOCÊ</p>
+      <h1>Sua bebida.<br>Do seu jeito.</h1>
+      <p>Escolha um sabor e ajuste as quantidades para montar sua receita.</p>
+    </section>
 
-    <label for="agua">Água (mL)</label>
-    <input id="agua" type="number" min="1" value="300">
+    <form id="receitaForm" class="painel">
+      <fieldset>
+        <legend><span class="numero">01</span> Escolha seu sabor</legend>
 
-    <button id="preparar">Preparar</button>
-    <p id="status">Aguardando comando</p>
+        <div class="sabores">
+          <label class="sabor">
+            <input type="radio" name="sabor" value="1" checked required>
+            <span class="sabor-card">
+              <span class="amostra chocolate" aria-hidden="true"></span>
+              <strong>Chocolate</strong>
+            </span>
+          </label>
+
+          <label class="sabor">
+            <input type="radio" name="sabor" value="2">
+            <span class="sabor-card">
+              <span class="amostra morango" aria-hidden="true"></span>
+              <strong>Morango</strong>
+            </span>
+          </label>
+
+          <label class="sabor">
+            <input type="radio" name="sabor" value="3">
+            <span class="sabor-card">
+              <span class="amostra baunilha" aria-hidden="true"></span>
+              <strong>Baunilha</strong>
+            </span>
+          </label>
+
+          <label class="sabor">
+            <input type="radio" name="sabor" value="4">
+            <span class="sabor-card">
+              <span class="amostra cookies" aria-hidden="true"></span>
+              <strong>Cookies</strong>
+            </span>
+          </label>
+
+          <label class="sabor">
+            <input type="radio" name="sabor" value="5">
+            <span class="sabor-card">
+              <span class="amostra morango-choco" aria-hidden="true"></span>
+              <strong>Morango + Choco</strong>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="quantidades">
+        <legend><span class="numero">02</span> Ajuste sua receita</legend>
+
+        <div class="campos">
+          <div class="campo">
+            <label for="whey">Whey</label>
+            <div class="entrada">
+              <input id="whey" type="number" min="0" max="2147483647"
+                     step="1" value="0" required>
+              <span>g</span>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="leiteNinho">Leite Ninho</label>
+            <div class="entrada">
+              <input id="leiteNinho" type="number" min="0" max="2147483647"
+                     step="1" value="0" required>
+              <span>g</span>
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="agua">Água</label>
+            <div class="entrada">
+              <input id="agua" type="number" min="100" max="2147483647"
+                     step="1" value="100" required>
+              <span>mL</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="ajuda">Informe quantidades inteiras. Mínimo de 100 mL de água.</p>
+      </fieldset>
+
+      <div class="acoes">
+        <button id="preparar" type="submit">Preparar bebida →</button>
+        <p id="status" role="status" aria-live="polite">
+          Tudo pronto para montar sua receita.
+        </p>
+      </div>
+    </form>
+
+    <footer>B.E.B.E.R · Oficina de Integração 2 · UTFPR</footer>
   </main>
-
-  <script src="app.js"></script>
 </body>
 </html>
