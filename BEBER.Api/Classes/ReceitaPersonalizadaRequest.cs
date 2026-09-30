@@ -17,9 +17,9 @@
 
         public void Confere()
         {
-            if(this.AguaMl > 500)
+            if (this.AguaMl > 500 || this.AguaMl < 100)
             {
-                throw new ArgumentException("O valor máximo de água é de 500ml");
+                throw new ArgumentException("A quantidade de água deve ser entre 100ml e 500ml");
             }
             if(this.WheyGramas * 10 > this.AguaMl)
             {
