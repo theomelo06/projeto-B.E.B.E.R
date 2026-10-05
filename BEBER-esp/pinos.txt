@@ -1,0 +1,31 @@
+PINOS BOTÕES DE PEDIDO
+17 - gpio14 - botão 1
+14 - gpio25 - botão 2
+15 - gpio26 - botão 3
+26 - gpio27 - botão 4
+12 - gpio32 - botão 5
+13 - gpio33 - botão 6
+
+PINOS LEDS BOTÕES
+24 - gpio4 - botão 1
+20 - gpio13 - botão 2
+25 - gpio16 - botão 3
+27 - gpio17 - botão 4
+42 - gpio21 - botão 5
+39 - gpio22 - botão 6
+
+PINOS LEDS PEDIDOS
+21 - gpio15 - vermelho
+22 - gpio2 - verde
+
+PINOS TCRT5000
+10 - gpio34 - a0
+11 - gpio35 - d0 
+
+PINO LED ON/OFF
+34 - gpio5
+
+PINOS HC595
+36 - gpio23 - data
+35 - gpio18 - clock
+38 - gpio19 - latch

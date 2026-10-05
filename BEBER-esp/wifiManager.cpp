@@ -1,8 +1,5 @@
 #include "wifiManager.hpp"
 
-ssid = "Wokwi-GUEST";
-password = "";
-apiURL = "http://your-api-url.com";
 
 // configura o wifi, chamado no setup()
 void setupWifi(){

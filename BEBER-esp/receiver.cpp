@@ -1,7 +1,7 @@
 #include "receiver.hpp"
 
-pinoVermelho = 23;
-pinoVerde = 22;
+const int pinoVermelho = 15;
+const int pinoVerde = 2;
 
 void configRequestLEDs(){
 

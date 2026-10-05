@@ -2,23 +2,25 @@
 #include "tcrt.hpp"
 #include "receiver.hpp"
 #include "wifiManager.hpp"
+#include "motorManager.hpp"
 
-const int ledOnOff = 33;
+const int ledOnOff = 5;
 
 void setup() {
 
   Serial.begin(115200);
 
-  // chama as funções de configurações:
   pinMode(ledOnOff, OUTPUT);
+  digitalWrite(ledOnOff, HIGH); // liga o ledOnOff
   configRequestLEDs();
-  // do buttonManager
-  // do tcrt
-  // do receiver
-  // do setupWifi
+  configHCPins();
+  configuraBotoes();
+  configTCRT();
+  setupWifi();
 
 }
 
 void loop() {
 
+  // TODO: morte
 }

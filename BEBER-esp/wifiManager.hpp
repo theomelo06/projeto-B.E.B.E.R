@@ -4,9 +4,10 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-const char* ssid;
-const char* password;
-const char* apiURL;
+// TODO: configurar essa bosta
+const char* ssid = "Wokwi-GUEST";
+const char* password = "";
+const char* apiURL = "http://your-api-url.com";
 
 void setupWifi();
 String receiveWifiRequest();

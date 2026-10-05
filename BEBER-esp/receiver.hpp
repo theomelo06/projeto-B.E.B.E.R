@@ -6,7 +6,6 @@
 #include "buttonManager.hpp"
 
 void configRequestLEDs();
-
 void receiveData();
 void piscarLEDVermelho();
 void acenderLEDVerde();

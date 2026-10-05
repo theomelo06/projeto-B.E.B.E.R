@@ -2,12 +2,12 @@
 
 // inicializa os botões
 Botao botoesPedido[NUM_BOTOES] = {
-  {13, 21, 10, 0, false, false}, // Botão 13, LED 21, Sinal 10
-  {12, 19, 20, 0, false, false}, // Botão 12, LED 19, Sinal 20
-  {14, 18, 30, 0, false, false}, // Botão 14, LED 18, Sinal 30
-  {27, 5,  40, 0, false, false}, // Botão 27, LED 5,  Sinal 40
-  {26, 17, 50, 0, false, false}, // Botão 26, LED 17, Sinal 50
-  {25, 16, 60, 0, false, false}  // Botão 25, LED 16, Sinal 60
+  {14, 4, 10, 0, false, false}, // Botão 1, LED 1, Sinal 10
+  {25, 13, 20, 0, false, false}, // Botão 2, LED 2, Sinal 20
+  {26, 16, 30, 0, false, false}, // Botão 3, LED 3, Sinal 30
+  {27, 17,  40, 0, false, false}, // Botão 4, LED 4,  Sinal 40
+  {32, 21, 50, 0, false, false}, // Botão 5, LED 5, Sinal 50
+  {33, 22, 60, 0, false, false}  // Botão 6, LED 6, Sinal 60
 };
 
 // Configura todos os botões, deve ser chamada no setup()
