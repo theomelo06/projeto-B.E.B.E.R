@@ -27,8 +27,30 @@ void receiveData(){
           return;
         }
 
-
-
+        int WheyGramas = doc["WheyGramas"];
+        int AguaMl = doc["AguaMl"];
+        int LeiteNinhoGramas = doc["LeiteNinhoGramas"];
+        int Sabor = doc["Sabor"];
+        
+        if (Sabor == 1){
+            // Sabor Chocolate
+        }
+        else if (Sabor == 2){
+            // Sabor Morango
+        }
+        else if (Sabor == 3){
+            // Sabor Baunilha
+        }
+        else if (Sabor == 4){
+            // Sabor Cookies
+        }
+        else if (Sabor == 5){
+            // Sabor MorangoChoco
+        }
+        else if (Sabor == 6){
+            // Sabor 6
+        }
+        
     }
     else if (signalRequest != -1){
         
@@ -62,17 +84,23 @@ void receiveData(){
 }
 
 
-void piscarLEDVermelho(){
+void piscarLEDVermelho() {
 
-    // TODO
+    digitalWrite(pinoVermelho, HIGH); // vai travar e fds
+    delay(500);
+    digitalWrite(pinoVermelho, LOW);
+    delay(500);
+    digitalWrite(pinoVermelho, HIGH);
+    delay(500);
+    digitalWrite(pinoVermelho, LOW); 
 }
 
 void acenderLEDVerde(){
 
-    // TODO
+    digitalWrite(pinoVerde, HIGH);
 }
 
 void apagarLEDVerde(){
 
-    // TODO
+    digitalWrite(pinoVerde, LOW);
 }
