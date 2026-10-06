@@ -29,3 +29,9 @@ PINOS HC595
 36 - gpio23 - data
 35 - gpio18 - clock
 38 - gpio19 - latch
+
+PINO MIXER
+18 - gpio12
+
+PINO BOMBA
+23 - gpio0

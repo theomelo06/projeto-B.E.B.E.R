@@ -3,21 +3,24 @@
 #include "receiver.hpp"
 #include "wifiManager.hpp"
 #include "motorManager.hpp"
+#include "mixer.hpp"
+#include "bomba.hpp"
 
 const int ledOnOff = 5;
 
 void setup() {
 
   Serial.begin(115200);
-
-  pinMode(ledOnOff, OUTPUT);
-  digitalWrite(ledOnOff, HIGH); // liga o ledOnOff
+  configBomba();
+  configMixer();
   configRequestLEDs();
   configHCPins();
   configuraBotoes();
   configTCRT();
   setupWifi();
-
+  pinMode(ledOnOff, OUTPUT);
+  digitalWrite(ledOnOff, HIGH); // liga o ledOnOff
+  
 }
 
 void loop() {

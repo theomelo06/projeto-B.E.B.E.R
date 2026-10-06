@@ -1,12 +1,12 @@
 #include "receiver.hpp"
 
-const int pinoVermelho = 15;
-const int pinoVerde = 2;
 
 void configRequestLEDs(){
 
     pinMode(pinoVermelho, OUTPUT);
     pinMode(pinoVerde, OUTPUT);
+    digitalWrite(pinoVermelho, LOW);
+    digitalWrite(pinoVerde, LOW);
 }
 
 void receiveData(){

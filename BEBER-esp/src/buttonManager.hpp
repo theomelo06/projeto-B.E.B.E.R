@@ -2,8 +2,8 @@
 
 #include <Arduino.h>
 
-constexpr int NUM_BOTOES = 6;
-constexpr unsigned long TEMPO_VALIDACAO = 1000; // 1 segundo
+inline constexpr int NUM_BOTOES = 6;
+inline constexpr unsigned long TEMPO_VALIDACAO = 1000; // 1 segundo
 
 // Definição da estrutura
 struct Botao {
@@ -17,7 +17,7 @@ struct Botao {
 
 extern Botao botoesPedido[NUM_BOTOES];
 
-// Protótipos das funções
+// funções
 void configuraBotoes();
 void apagarTodosLeds();
 int receiveButtonRequest();

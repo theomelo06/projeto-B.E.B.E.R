@@ -5,6 +5,9 @@
 #include "wifiManager.hpp"
 #include "buttonManager.hpp"
 
+inline constexpr int pinoVermelho = 15;
+inline constexpr int pinoVerde = 2;
+
 void configRequestLEDs();
 void receiveData();
 void piscarLEDVermelho();
