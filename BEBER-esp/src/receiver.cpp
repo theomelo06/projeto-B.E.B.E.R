@@ -12,7 +12,7 @@ void configRequestLEDs(){
 void receiveData(){
 
     String wifiRequest = receiveWifiRequest();
-    int signalRequest = receiveButtonsRequest();
+    int signalRequest = receiveButtonRequest();
 
     if (wifiRequest != ""){
 
@@ -27,11 +27,33 @@ void receiveData(){
           return;
         }
 
-        int WheyGramas = doc["WheyGramas"];
-        int AguaMl = doc["AguaMl"];
-        int LeiteNinhoGramas = doc["LeiteNinhoGramas"];
-        int Sabor = doc["Sabor"];
-        
+        int WheyGramas = doc["wheyGramas"].as<int>();
+        int AguaMl = doc["aguaMl"].as<int>();
+        int LeiteNinhoGramas = doc["leiteNinhoGramas"].as<int>();
+        int Sabor = doc["sabor"].as<int>();
+                
+        Serial.println("\n--- Pedido recebido por Wi-Fi ---");
+
+        Serial.print("ID: ");
+        Serial.println(doc["pedidoId"].as<String>());
+
+        Serial.print("Whey: ");
+        Serial.print(WheyGramas);
+        Serial.println(" g");
+
+        Serial.print("Agua: ");
+        Serial.print(AguaMl);
+        Serial.println(" mL");
+
+        Serial.print("Leite Ninho: ");
+        Serial.print(LeiteNinhoGramas);
+        Serial.println(" g");
+
+        Serial.print("Sabor: ");
+        Serial.println(Sabor);
+
+        Serial.println("--------------------------------");
+
         if (Sabor == 1){
             // Sabor Chocolate
         }
@@ -46,9 +68,6 @@ void receiveData(){
         }
         else if (Sabor == 5){
             // Sabor MorangoChoco
-        }
-        else if (Sabor == 6){
-            // Sabor 6
         }
         
     }

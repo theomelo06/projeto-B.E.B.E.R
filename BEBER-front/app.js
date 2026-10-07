@@ -48,7 +48,7 @@ formulario.addEventListener("submit", async (evento) => {
 
     mostrarStatus(
       resultado?.mensagem ?? "Receita recebida pela API.",
-      "sucesso"
+      "sucesso" 
     );
   } catch (erro) {
     console.error(erro);
