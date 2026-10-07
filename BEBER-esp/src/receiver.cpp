@@ -14,7 +14,7 @@ void receiveData(){
     String wifiRequest = receiveWifiRequest();
     int signalRequest = receiveButtonsRequest();
 
-    if (request != ""){
+    if (wifiRequest != ""){
 
         // Há um pedido via wifi
         JsonDocument doc;
