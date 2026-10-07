@@ -146,8 +146,8 @@ void processarWifi() {
 
         if (millis() - ultimaTentativa >= 15000) {
             ultimaTentativa = millis();
-            Serial.println("Tentando reconectar ao Wi-Fi...");
-            WiFi.reconnect();
+            Serial.print("Aguardando Wi-Fi. Status: ");
+            Serial.println((int)WiFi.status());
         }
     }
 
