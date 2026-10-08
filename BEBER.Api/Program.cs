@@ -2,6 +2,7 @@ using BEBER.Api;
 using BEBER.Api.Classes;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.Extensions.FileProviders;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,9 +34,28 @@ builder.Services.AddHttpClient("Esp32", client =>
 
 var app = builder.Build();
 
+var pastaFront = Path.GetFullPath(
+    Path.Combine(
+        app.Environment.ContentRootPath,
+        "..",
+        "BEBER-front"
+    )
+);
+
+app.UseFileServer(new FileServerOptions
+{
+    FileProvider = new PhysicalFileProvider(pastaFront),
+    RequestPath = "",
+    EnableDefaultFiles = true,
+    EnableDirectoryBrowsing = false
+});
+
 app.UseCors("FrontLocal");
 
-app.MapGet("/", () => "BEBER API está funcionando.");
+app.MapGet("/api/status", () => Results.Ok(new
+{
+    mensagem = "BEBER API está funcionando."
+}));
 
 app.MapPost(
     "/api/receita-personalizada",

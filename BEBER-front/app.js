@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5090/api/receita-personalizada";
+const API_URL = "/api/receita-personalizada";
 
 const formulario = document.getElementById("receitaForm");
 const botao = document.getElementById("preparar");
