@@ -1,4 +1,4 @@
-  #include "buttonManager.hpp"
+#include "buttonManager.hpp"
 #include "tcrt.hpp"
 #include "receiver.hpp"
 #include "wifiManager.hpp"
@@ -23,7 +23,8 @@ void setup() {
   
 }
 
-void loop() {   
+void loop() {
+
   processarWifi();
   receiveData();
 }

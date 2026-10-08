@@ -25,6 +25,12 @@ namespace {
     void receberPedidoHttp() {
         String corpo = servidor.arg("plain");
 
+        Serial.print("Tamanho do corpo: ");
+        Serial.println(corpo.length());
+
+        Serial.print("Corpo recebido: ");
+        Serial.println(corpo);
+
         if (corpo.isEmpty() || corpo.length() > 1024) {
             responderErro(400, "Corpo do pedido vazio ou muito grande.");
             return;
@@ -117,6 +123,32 @@ void setupWifi() {
     servidor.on("/api/pedidos", HTTP_POST, receberPedidoHttp);
 
     WiFi.mode(WIFI_STA);
+
+    Serial.print("Rede configurada: [");
+    Serial.print(WIFI_SSID);
+    Serial.println("]");
+
+    Serial.println("Procurando redes...");
+
+    int quantidade = WiFi.scanNetworks();
+
+    if (quantidade < 0) {
+        Serial.println("Falha ao procurar redes.");
+    } else {
+        Serial.print("Redes encontradas: ");
+        Serial.println(quantidade);
+
+        for (int i = 0; i < quantidade; i++) {
+            Serial.print("[");
+            Serial.print(WiFi.SSID(i));
+            Serial.print("] Sinal: ");
+            Serial.print(WiFi.RSSI(i));
+            Serial.println(" dBm");
+        }
+    }
+
+    WiFi.scanDelete();
+
     WiFi.setAutoReconnect(true);
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
