@@ -25,5 +25,6 @@ void setup() {
 
 void loop() {
 
-  // TODO: morte
+  processarWifi();
+  receiveData();
 }

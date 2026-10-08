@@ -1,36 +1,193 @@
 #include "wifiManager.hpp"
+#include "wifiConfig.hpp"
 
+#include <WiFi.h>
+#include <WebServer.h>
+#include <ArduinoJson.h>
 
-// configura o wifi, chamado no setup()
-void setupWifi(){
+namespace {
+    WebServer servidor(80);
 
-    Wifi.begin(ssid, password);
-    Serial.print("Connecting to WiFi");
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
+    String pedidoPendente;
+    bool estavaConectado = false;
+    bool servidorIniciado = false;
+    unsigned long ultimaTentativa = 0;
+
+    void responderErro(int codigo, const char* mensagem) {
+        JsonDocument resposta;
+        resposta["mensagem"] = mensagem;
+
+        String json;
+        serializeJson(resposta, json);
+        servidor.send(codigo, "application/json", json);
     }
-    Serial.println("\nConectado com o IP: " + WiFi.localIP().toString());
+
+    void receberPedidoHttp() {
+        String corpo = servidor.arg("plain");
+
+        Serial.print("Tamanho do corpo: ");
+        Serial.println(corpo.length());
+
+        Serial.print("Corpo recebido: ");
+        Serial.println(corpo);
+
+        if (corpo.isEmpty() || corpo.length() > 1024) {
+            responderErro(400, "Corpo do pedido vazio ou muito grande.");
+            return;
+        }
+
+        JsonDocument pedido;
+
+        if (deserializeJson(pedido, corpo)) {
+            responderErro(400, "JSON invalido.");
+            return;
+        }
+
+        if (!pedido["pedidoId"].is<const char*>() ||
+            !pedido["wheyGramas"].is<int>() ||
+            !pedido["aguaMl"].is<int>() ||
+            !pedido["leiteNinhoGramas"].is<int>() ||
+            !pedido["sabor"].is<int>()) {
+            responderErro(400, "Campos ausentes ou tipos invalidos.");
+            return;
+        }
+
+        String pedidoId = pedido["pedidoId"].as<String>();
+
+        int whey = pedido["wheyGramas"].as<int>();
+        int agua = pedido["aguaMl"].as<int>();
+        int leite = pedido["leiteNinhoGramas"].as<int>();
+        int sabor = pedido["sabor"].as<int>();
+
+        if (pedidoId.length() != 36) {
+            responderErro(400, "Identificador de pedido invalido.");
+            return;
+        }
+
+        if (agua < 100 || agua > 500) {
+            responderErro(400, "A agua deve estar entre 100 e 500 mL.");
+            return;
+        }
+
+        if (whey < 0 || whey > 30 || whey > agua / 10) {
+            responderErro(
+                400,
+                "Whey invalido: maximo de 30 g e 10 g por 100 mL."
+            );
+            return;
+        }
+
+        if (leite < 0 || leite > agua / 5) {
+            responderErro(
+                400,
+                "Leite Ninho invalido: maximo de 20 g por 100 mL."
+            );
+            return;
+        }
+
+        if (sabor < 1 || sabor > 5) {
+            responderErro(400, "Escolha um dos cinco sabores.");
+            return;
+        }
+
+        if (!pedidoPendente.isEmpty()) {
+            responderErro(409, "Existe um pedido aguardando leitura.");
+            return;
+        }
+
+        // Guarda o JSON para o receiver.cpp consumir no loop.
+        pedidoPendente = corpo;
+
+        JsonDocument resposta;
+        resposta["pedidoId"] = pedidoId;
+        resposta["estado"] = "recebido";
+        resposta["mensagem"] = "Pedido recebido pela ESP32.";
+
+        String json;
+        serializeJson(resposta, json);
+
+        // Confirma recebimento. Nenhum atuador foi acionado.
+        servidor.send(200, "application/json", json);
+    }
 }
 
-// Ou recebe o json do site ou o sinal do botão, dependendo do que for mais recente.
-String receiveWifiRequest(){
+void setupWifi() {
+    servidor.on("/api/status", HTTP_GET, []() {
+        servidor.send(
+            200,
+            "application/json",
+            "{\"estado\":\"online\",\"modo\":\"teste-comunicacao\"}"
+        );
+    });
 
-    if (WiFi.status() == WL_CONNECTED) {
-        HTTPClient http;
-        http.begin(apiURL);
-        int httpResponseCode = http.GET();
+    servidor.on("/api/pedidos", HTTP_POST, receberPedidoHttp);
 
-        if (httpResponseCode == 200) {
-            String payload = http.getString();
-            return payload;
-        } else {
-            Serial.println("Erro na requisição HTTP: " + String(httpResponseCode));
-            return "";
-        }
-        http.end();
+    WiFi.mode(WIFI_STA);
+
+    Serial.print("Rede configurada: [");
+    Serial.print(WIFI_SSID);
+    Serial.println("]");
+
+    Serial.println("Procurando redes...");
+
+    int quantidade = WiFi.scanNetworks();
+
+    if (quantidade < 0) {
+        Serial.println("Falha ao procurar redes.");
     } else {
-        Serial.println("WiFi não conectado");
+        Serial.print("Redes encontradas: ");
+        Serial.println(quantidade);
+
+        for (int i = 0; i < quantidade; i++) {
+            Serial.print("[");
+            Serial.print(WiFi.SSID(i));
+            Serial.print("] Sinal: ");
+            Serial.print(WiFi.RSSI(i));
+            Serial.println(" dBm");
+        }
     }
-    return "";
+
+    WiFi.scanDelete();
+
+    WiFi.setAutoReconnect(true);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+
+    ultimaTentativa = millis();
+    Serial.println("Conectando ao Wi-Fi...");
+}
+
+void processarWifi() {
+    bool conectado = WiFi.status() == WL_CONNECTED;
+
+    if (conectado) {
+        if (!estavaConectado) {
+            Serial.print("ESP conectada. IP: ");
+            Serial.println(WiFi.localIP());
+        }
+
+        if (!servidorIniciado) {
+            servidor.begin();
+            servidorIniciado = true;
+        }
+
+        servidor.handleClient();
+    } else {
+        if (estavaConectado) {
+            Serial.println("Wi-Fi desconectado.");
+        }
+
+        if (millis() - ultimaTentativa >= 15000) {
+            ultimaTentativa = millis();
+            Serial.print("Aguardando Wi-Fi. Status: ");
+            Serial.println((int)WiFi.status());
+        }
+    }
+
+    estavaConectado = conectado;
+}
+
+String receiveWifiRequest() {
+    String pedido = pedidoPendente;
+    pedidoPendente = "";
+    return pedido;
 }
