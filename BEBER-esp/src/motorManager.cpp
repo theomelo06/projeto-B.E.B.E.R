@@ -35,8 +35,8 @@ void girarMotor(uint8_t motorIndex, float graus) {
         
         atualizarSaidas(mapa);
         
-        // Atraso entre os passos (2ms é o ideal para o 28BYJ-48 manter o torque)
-        delay(2); 
+        // Atraso entre os passos
+        delay(4); 
     }
 
     // Desliga todas as bobinas após o movimento para evitar aquecimento
