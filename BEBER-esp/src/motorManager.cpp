@@ -1,4 +1,5 @@
 #include "motorManager.hpp"
+#include <Arduino.h>
 
 
 // Sequencia de passos para o 28BYJ-48 (Half-Step - 8 fases)

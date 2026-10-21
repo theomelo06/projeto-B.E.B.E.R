@@ -1,28 +1,20 @@
 #include "buttonManager.hpp"
+#include <Arduino.h>
 
 // inicializa os botões
 Botao botoesPedido[NUM_BOTOES] = {
-  {14, 4, 10, 0, false, false}, // Botão 1, LED 1, Sinal 10
-  {25, 13, 20, 0, false, false}, // Botão 2, LED 2, Sinal 20
-  {26, 16, 30, 0, false, false}, // Botão 3, LED 3, Sinal 30
-  {27, 17,  40, 0, false, false}, // Botão 4, LED 4,  Sinal 40
-  {32, 21, 50, 0, false, false}, // Botão 5, LED 5, Sinal 50
-  {33, 22, 60, 0, false, false}  // Botão 6, LED 6, Sinal 60
+  {14, 10, 0, false, false}, // Botão 1, Sinal 10
+  {25, 20, 0, false, false}, // Botão 2, Sinal 20
+  {26, 30, 0, false, false}, // Botão 3, Sinal 30
+  {27, 40, 0, false, false}, // Botão 4, Sinal 40
+  {32, 50, 0, false, false}, // Botão 5, Sinal 50
+  {33, 60, 0, false, false}  // Botão 6, Sinal 60
 };
 
 // Configura todos os botões, deve ser chamada no setup()
 void configuraBotoes(){
   for (int i = 0; i < NUM_BOTOES; i++) {
     pinMode(botoesPedido[i].pinoBotao, INPUT_PULLUP);
-    pinMode(botoesPedido[i].pinoLed, OUTPUT);
-    digitalWrite(botoesPedido[i].pinoLed, LOW); // Garante que todos os LEDs comecem apagados
-  }
-}
-
-// Apaga todos os LEDs para garantir que apenas um fique aceso
-void apagarTodosLeds() {
-  for (int i = 0; i < NUM_BOTOES; i++) {
-    digitalWrite(botoesPedido[i].pinoLed, LOW);
   }
 }
 
@@ -60,10 +52,6 @@ int receiveButtonRequest() {
     else if (leituraAtual == true && botoesPedido[i].estaPressionado == true) {
       if ((millis() - botoesPedido[i].tempoInicio >= TEMPO_VALIDACAO) && !botoesPedido[i].sinalJaProcessado) {
         botoesPedido[i].sinalJaProcessado = true; 
-        
-        apagarTodosLeds();
-        digitalWrite(botoesPedido[i].pinoLed, HIGH);
-
         return botoesPedido[i].sinal; 
       }
     }

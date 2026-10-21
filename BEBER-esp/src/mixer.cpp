@@ -1,4 +1,5 @@
 #include "mixer.hpp"
+#include <Arduino.h>
 
 void configMixer() {
   pinMode(pinoMixer, OUTPUT);

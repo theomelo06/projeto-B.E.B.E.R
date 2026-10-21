@@ -1,10 +1,26 @@
 #include "receiver.hpp"
+#include <Arduino.h>
+#include <ArduinoJson.h>
+#include "wifiManager.hpp"
+#include "buttonManager.hpp"
 
 
 void configRequestLEDs(){
 
     pinMode(pinoVermelho, OUTPUT);
     pinMode(pinoVerde, OUTPUT);
+    pinMode(led1, OUTPUT);
+    pinMode(led2, OUTPUT);
+    pinMode(led3, OUTPUT);
+    pinMode(led4, OUTPUT);
+    pinMode(led5, OUTPUT);
+    pinMode(led6, OUTPUT);
+    digitalWrite(led1, LOW);
+    digitalWrite(led2, LOW);
+    digitalWrite(led3, LOW);
+    digitalWrite(led4, LOW);
+    digitalWrite(led5, LOW);
+    digitalWrite(led6, LOW);
     digitalWrite(pinoVermelho, LOW);
     digitalWrite(pinoVerde, LOW);
 }
@@ -17,13 +33,18 @@ void receiveData(){
     if (wifiRequest != ""){
 
         // Há um pedido via wifi
+
+        // Acende o LED verde para inidicar que o pedido está em preparo
+        acenderLEDVerde();
+
         JsonDocument doc;
         DeserializationError error = deserializeJson(doc, wifiRequest);
 
         if (error) {
           Serial.print("Falha ao interpretar o JSON: ");
           Serial.println(error.c_str());
-          piscarLEDVermelho();
+          apagarLEDVerde();
+          piscarLEDVermelho(); // pisca para indicar que houve erro no processamento, pedido cancelado
           return;
         }
 
@@ -75,30 +96,59 @@ void receiveData(){
         
         // Há um pedido pelos botões
 
+        // Acende o LED verde para inidicar que o pedido está em preparo
+        acenderLEDVerde();
+
         if (signalRequest == 10){
 
+            digitalWrite(led1, HIGH); // Acende o LED do botão 1
+
             // predefinição 1
+
+            digitalWrite(led1, LOW); // Apaga o LED do botão 1 ao fim do preparo
         }
         else if (signalRequest == 20){
 
+            digitalWrite(led2, HIGH); // Acende o LED do botão 2
+
             // predefinição 2
+
+            digitalWrite(led2, LOW); // Apaga o LED do botão 2 ao fim do preparo
         }
         else if (signalRequest == 30){
 
+            digitalWrite(led3, HIGH); // Acende o LED do botão 3
+
             // predefinição 3
+
+            digitalWrite(led3, LOW); // Apaga o LED do botão 3 ao fim do preparo
         }
         else if (signalRequest == 40){
 
+            digitalWrite(led4, HIGH); // Acende o LED do botão 4
+
             // predefinição 4
+
+            digitalWrite(led4, LOW); // Apaga o LED do botão 4 ao fim do preparo
         }
         else if (signalRequest == 50){
 
+            digitalWrite(led5, HIGH); // Acende o LED do botão 5
+
             // predefinição 5
+
+            digitalWrite(led5, LOW); // Apaga o LED do botão 5 ao fim do preparo
         }
         else if (signalRequest == 60){
 
+            digitalWrite(led6, HIGH); // Acende o LED do botão 6
+
             // predefinição 6
+
+            digitalWrite(led6, LOW); // Apaga o LED do botão 6 ao fim do preparo
         }
+
+        apagarLEDVerde(); // Apaga o LED verde ao fim do preparo
     }
 }
 

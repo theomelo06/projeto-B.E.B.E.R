@@ -6,7 +6,7 @@
 #include "mixer.hpp"
 #include "bomba.hpp"
 
-const int ledOnOff = 5;
+inline constexpr int ledOnOff = 5;
 
 void setup() {
 
@@ -23,8 +23,11 @@ void setup() {
   
 }
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TIRAR TODOS OS SERIAL PRINTS DOS ARQUIVOS ANTES DE SUBIR O CÓDIGO PARA O ESP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 void loop() {
 
   processarWifi();
   receiveData();
 }
+

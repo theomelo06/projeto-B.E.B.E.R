@@ -1,4 +1,5 @@
 #include "bomba.hpp"
+#include <Arduino.h>
 
 void configBomba() {
   pinMode(pinoBomba, OUTPUT);

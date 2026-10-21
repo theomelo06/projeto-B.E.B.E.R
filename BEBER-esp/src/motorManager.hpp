@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
-
 // pinos
 inline constexpr int dataPin = 23;
 inline constexpr int clockPin = 18;
