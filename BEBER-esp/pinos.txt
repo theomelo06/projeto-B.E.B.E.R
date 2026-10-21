@@ -34,4 +34,4 @@ PINO MIXER
 18 - gpio12
 
 PINO BOMBA
-23 - gpio0
+23 - gpio3
