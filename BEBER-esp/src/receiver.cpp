@@ -3,6 +3,10 @@
 #include <ArduinoJson.h>
 #include "wifiManager.hpp"
 #include "buttonManager.hpp"
+#include "motorManager.hpp"
+#include "mixer.hpp"
+#include "bomba.hpp"
+#include "tcrt.hpp"
 
 
 void configRequestLEDs(){
@@ -74,6 +78,18 @@ void receiveData(){
         Serial.println(Sabor);
 
         Serial.println("--------------------------------");
+        
+        // espera o copo estar posicionado corretamente, usando o sensor TCRT
+
+        // ligar e desligar bomba pela qtde solicitada
+
+        // ligar mixer
+
+        // despejar ninho se tiver
+
+        // espera uns 5 segundos
+
+        // despejar whey
 
         if (Sabor == 1){
             // Sabor Chocolate
@@ -90,6 +106,12 @@ void receiveData(){
         else if (Sabor == 5){
             // Sabor MorangoChoco
         }
+
+        // espera uns 5 segundos
+
+        // desligar mixer
+
+        apagarLEDVerde(); // Apaga o LED verde ao fim do preparo
         
     }
     else if (signalRequest != -1){
