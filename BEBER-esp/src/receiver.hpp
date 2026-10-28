@@ -1,5 +1,14 @@
 #pragma once
 
+inline constexpr int TEMPO_ESPERA = 10000; // tempo de espera em milissegundos
+
+inline constexpr int INDEX_CHOCOLATE = 0;
+inline constexpr int INDEX_MORANGO = 1;
+inline constexpr int INDEX_BAUNILHA = 2;
+inline constexpr int INDEX_COOKIES = 3;
+inline constexpr int INDEX_MORANGOCHOCO = 4;
+inline constexpr int INDEX_NINHO = 5;
+
 inline constexpr int pinoVermelho = 15;
 inline constexpr int pinoVerde = 2;
 

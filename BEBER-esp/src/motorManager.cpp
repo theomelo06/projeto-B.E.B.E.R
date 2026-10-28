@@ -2,13 +2,6 @@
 #include <Arduino.h>
 
 
-// Sequencia de passos para o 28BYJ-48 (Half-Step - 8 fases)
-const uint8_t stepSequence[8] = {
-    0b1000, 0b1100, 0b0100, 0b0110,
-    0b0010, 0b0011, 0b0001, 0b1001
-};
-
-
 // Funcao para enviar os 24 bits para os 3 CIs em cascata
 void atualizarSaidas(uint32_t mapaSaidas) {
     
@@ -47,15 +40,15 @@ void girarMotor(uint8_t motorIndex, float graus) {
 
 // Converte um ângulo em graus para o número de passos em modo Half-Step
 int grausParaPassos(float graus) {
-    // Constante de passos por volta exata do 28BYJ-48 (Half-step)
-    const float PASSOS_POR_VOLTA = 4075.77; 
-    
-    // Calcula e arredonda para o número inteiro de passos mais próximo
-    int passos = round((graus / 360.0) * PASSOS_POR_VOLTA);
-    
-    return passos;
+
+    return (round((graus / 360.0) * PASSOS_POR_VOLTA));
 }
 
+// Converte a quantidade de gramas para o ângulo em graus
+float gramasParaGraus(int gramas) {
+
+    return (gramas * GRAUS_POR_GRAMA);
+}
 
 // Config inicial chamada no setup
 void configHCPins(){

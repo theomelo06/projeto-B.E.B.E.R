@@ -80,36 +80,47 @@ void receiveData(){
         Serial.println("--------------------------------");
         
         // espera o copo estar posicionado corretamente, usando o sensor TCRT
+        while (listenTCRT() == false) {
+            delay(1);
+        }
 
         // ligar e desligar bomba pela qtde solicitada
+        ligarBomba(mlParaSegundos(AguaMl));
 
         // ligar mixer
+        ligarMixer();
 
         // despejar ninho se tiver
+        if (LeiteNinhoGramas > 0){
+            girarMotor(INDEX_NINHO, gramasParaGraus(LeiteNinhoGramas));
+        }
 
-        // espera uns 5 segundos
+        // espera terminar de mexer o ninho
+        delay(TEMPO_ESPERA);
 
         // despejar whey
 
         if (Sabor == 1){
-            // Sabor Chocolate
+            girarMotor(INDEX_CHOCOLATE, gramasParaGraus(WheyGramas)); // Sabor Chocolate
         }
         else if (Sabor == 2){
-            // Sabor Morango
+            girarMotor(INDEX_MORANGO, gramasParaGraus(WheyGramas)); // Sabor Morango
         }
         else if (Sabor == 3){
-            // Sabor Baunilha
+            girarMotor(INDEX_BAUNILHA, gramasParaGraus(WheyGramas)); // Sabor Baunilha
         }
         else if (Sabor == 4){
-            // Sabor Cookies
+            girarMotor(INDEX_COOKIES, gramasParaGraus(WheyGramas)); // Sabor Cookies
         }
         else if (Sabor == 5){
-            // Sabor MorangoChoco
+            girarMotor(INDEX_MORANGOCHOCO, gramasParaGraus(WheyGramas)); // Sabor MorangoChoco
         }
 
-        // espera uns 5 segundos
+        // espera terminar de mexer o whey
+        delay(TEMPO_ESPERA);
 
         // desligar mixer
+        deligarMixer();
 
         apagarLEDVerde(); // Apaga o LED verde ao fim do preparo
         
@@ -125,7 +136,20 @@ void receiveData(){
 
             digitalWrite(led1, HIGH); // Acende o LED do botão 1
 
-            // predefinição 1
+            // PREDEFINIÇÃO 1 - SMOOTH CHOCOLATE
+            /*  300ml agua
+            *   25g ninho
+            *   30g whey chocolate
+            */
+
+            while (listenTCRT() == false) {delay(1);}
+            ligarBomba(mlParaSegundos(300));
+            ligarMixer();
+            girarMotor(INDEX_NINHO, gramasParaGraus(25));
+            delay(TEMPO_ESPERA);
+            girarMotor(INDEX_CHOCOLATE, gramasParaGraus(30));
+            delay(TEMPO_ESPERA);
+            desligarMixer();
 
             digitalWrite(led1, LOW); // Apaga o LED do botão 1 ao fim do preparo
         }
@@ -133,7 +157,20 @@ void receiveData(){
 
             digitalWrite(led2, HIGH); // Acende o LED do botão 2
 
-            // predefinição 2
+            // PREDEFINIÇÃO 2 - SMOOTH STRAWBERRY
+            /*  300ml agua
+            *   25g ninho
+            *   30g whey morango
+            */
+            
+            while (listenTCRT() == false) {delay(1);}
+            ligarBomba(mlParaSegundos(300));
+            ligarMixer();
+            girarMotor(INDEX_NINHO, gramasParaGraus(25));
+            delay(TEMPO_ESPERA);
+            girarMotor(INDEX_MORANGO, gramasParaGraus(30));
+            delay(TEMPO_ESPERA);
+            desligarMixer();
 
             digitalWrite(led2, LOW); // Apaga o LED do botão 2 ao fim do preparo
         }
@@ -141,7 +178,20 @@ void receiveData(){
 
             digitalWrite(led3, HIGH); // Acende o LED do botão 3
 
-            // predefinição 3
+            // PREDEFINIÇÃO 3 - SMOOTH VANILLA
+            /*  300ml agua
+            *   25g ninho
+            *   30g whey baunilha
+            */
+
+            while (listenTCRT() == false) {delay(1);}
+            ligarBomba(mlParaSegundos(300));
+            ligarMixer();
+            girarMotor(INDEX_NINHO, gramasParaGraus(25));
+            delay(TEMPO_ESPERA);
+            girarMotor(INDEX_BAUNILHA, gramasParaGraus(30));
+            delay(TEMPO_ESPERA);
+            desligarMixer();
 
             digitalWrite(led3, LOW); // Apaga o LED do botão 3 ao fim do preparo
         }
@@ -149,7 +199,20 @@ void receiveData(){
 
             digitalWrite(led4, HIGH); // Acende o LED do botão 4
 
-            // predefinição 4
+            // PREDEFINIÇÃO 4 - SMOOTH COOKIES
+            /*  300ml agua
+            *   25g ninho
+            *   30g whey cookies
+            */
+
+            while (listenTCRT() == false) {delay(1);}
+            ligarBomba(mlParaSegundos(300));
+            ligarMixer();
+            girarMotor(INDEX_NINHO, gramasParaGraus(25));
+            delay(TEMPO_ESPERA);
+            girarMotor(INDEX_COOKIES, gramasParaGraus(30));
+            delay(TEMPO_ESPERA);
+            desligarMixer();
 
             digitalWrite(led4, LOW); // Apaga o LED do botão 4 ao fim do preparo
         }
@@ -157,7 +220,20 @@ void receiveData(){
 
             digitalWrite(led5, HIGH); // Acende o LED do botão 5
 
-            // predefinição 5
+            // PREDEFINIÇÃO 5 - SWEET MIX
+            /*  300ml agua
+            *   25g ninho
+            *   30g whey morangochoco
+            */
+
+            while (listenTCRT() == false) {delay(1);}
+            ligarBomba(mlParaSegundos(300));
+            ligarMixer();
+            girarMotor(INDEX_NINHO, gramasParaGraus(25));
+            delay(TEMPO_ESPERA);
+            girarMotor(INDEX_MORANGOCHOCO, gramasParaGraus(30));
+            delay(TEMPO_ESPERA);
+            desligarMixer();
 
             digitalWrite(led5, LOW); // Apaga o LED do botão 5 ao fim do preparo
         }
@@ -165,7 +241,17 @@ void receiveData(){
 
             digitalWrite(led6, HIGH); // Acende o LED do botão 6
 
-            // predefinição 6
+            // PREDEFINIÇÃO 6 - POWER DOSE
+            /*  220ml agua
+            *   30g whey baunilha
+            */
+
+            while (listenTCRT() == false) {delay(1);}
+            ligarBomba(mlParaSegundos(220));
+            ligarMixer();
+            girarMotor(INDEX_BAUNILHA, gramasParaGraus(30));
+            delay(TEMPO_ESPERA);
+            desligarMixer();
 
             digitalWrite(led6, LOW); // Apaga o LED do botão 6 ao fim do preparo
         }
@@ -178,12 +264,16 @@ void receiveData(){
 void piscarLEDVermelho() {
 
     digitalWrite(pinoVermelho, HIGH); // vai travar e fds
-    delay(500);
+    delay(200);
     digitalWrite(pinoVermelho, LOW);
-    delay(500);
+    delay(200);
     digitalWrite(pinoVermelho, HIGH);
-    delay(500);
+    delay(200);
     digitalWrite(pinoVermelho, LOW); 
+    delay(200);
+    digitalWrite(pinoVermelho, HIGH);
+    delay(200);
+    digitalWrite(pinoVermelho, LOW);
 }
 
 void acenderLEDVerde(){
