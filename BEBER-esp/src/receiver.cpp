@@ -80,9 +80,11 @@ void receiveData(){
         Serial.println("--------------------------------");
         
         // espera o copo estar posicionado corretamente, usando o sensor TCRT
+        acenderLEDPresenca();
         while (listenTCRT() == false) {
             delay(1);
         }
+        apagarLEDPresenca();
 
         // ligar e desligar bomba pela qtde solicitada
         ligarBomba(mlParaSegundos(AguaMl));
@@ -142,7 +144,9 @@ void receiveData(){
             *   30g whey chocolate
             */
 
+            acenderLEDPresenca();
             while (listenTCRT() == false) {delay(1);}
+            apagarLEDPresenca();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -163,7 +167,9 @@ void receiveData(){
             *   30g whey morango
             */
             
+            acenderLEDPresenca();
             while (listenTCRT() == false) {delay(1);}
+            apagarLEDPresenca();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -184,7 +190,9 @@ void receiveData(){
             *   30g whey baunilha
             */
 
+            acenderLEDPresenca();
             while (listenTCRT() == false) {delay(1);}
+            apagarLEDPresenca();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -205,7 +213,9 @@ void receiveData(){
             *   30g whey cookies
             */
 
+            acenderLEDPresenca();
             while (listenTCRT() == false) {delay(1);}
+            apagarLEDPresenca();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -226,7 +236,9 @@ void receiveData(){
             *   30g whey morangochoco
             */
 
+            acenderLEDPresenca();
             while (listenTCRT() == false) {delay(1);}
+            apagarLEDPresenca();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -246,7 +258,9 @@ void receiveData(){
             *   30g whey baunilha
             */
 
+            acenderLEDPresenca();
             while (listenTCRT() == false) {delay(1);}
+            apagarLEDPresenca();
             ligarBomba(mlParaSegundos(220));
             ligarMixer();
             girarMotor(INDEX_BAUNILHA, gramasParaGraus(30));
@@ -284,4 +298,14 @@ void acenderLEDVerde(){
 void apagarLEDVerde(){
 
     digitalWrite(pinoVerde, LOW);
+}
+
+void acenderLEDPresenca(){
+
+    digitalWrite(ledPresenca, HIGH);
+}
+
+void apagarLEDPresenca(){
+
+    digitalWrite(ledPresenca, LOW);
 }

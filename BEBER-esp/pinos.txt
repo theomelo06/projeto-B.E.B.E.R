@@ -19,8 +19,10 @@ gpio15 - vermelho
 gpio2 - verde
 
 PINOS TCRT5000
-gpio34 - a0
 gpio35 - d0 
+
+PINO LED SENSOR COPO
+gpio34
 
 PINO LED ON/OFF
 gpio5
