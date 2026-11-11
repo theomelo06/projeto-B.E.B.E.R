@@ -45,8 +45,6 @@ void receiveData(){
         DeserializationError error = deserializeJson(doc, wifiRequest);
 
         if (error) {
-          Serial.print("Falha ao interpretar o JSON: ");
-          Serial.println(error.c_str());
           apagarLEDVerde();
           piscarLEDVermelho(); // pisca para indicar que houve erro no processamento, pedido cancelado
           return;
@@ -56,76 +54,21 @@ void receiveData(){
         int AguaMl = doc["aguaMl"].as<int>();
         int LeiteNinhoGramas = doc["leiteNinhoGramas"].as<int>();
         int Sabor = doc["sabor"].as<int>();
-                
-        Serial.println("\n--- Pedido recebido por Wi-Fi ---");
-
-        Serial.print("ID: ");
-        Serial.println(doc["pedidoId"].as<String>());
-
-        Serial.print("Whey: ");
-        Serial.print(WheyGramas);
-        Serial.println(" g");
-
-        Serial.print("Agua: ");
-        Serial.print(AguaMl);
-        Serial.println(" mL");
-
-        Serial.print("Leite Ninho: ");
-        Serial.print(LeiteNinhoGramas);
-        Serial.println(" g");
-
-        Serial.print("Sabor: ");
-        Serial.println(Sabor);
-
-        Serial.println("--------------------------------");
         
-        // espera o copo estar posicionado corretamente, usando o sensor TCRT
-        acenderLEDPresenca();
-        while (listenTCRT() == false) {
-            delay(1);
-        }
-        apagarLEDPresenca();
-
-        // ligar e desligar bomba pela qtde solicitada
+        isPresent();
         ligarBomba(mlParaSegundos(AguaMl));
-
-        // ligar mixer
         ligarMixer();
-
-        // despejar ninho se tiver
-        if (LeiteNinhoGramas > 0){
-            girarMotor(INDEX_NINHO, gramasParaGraus(LeiteNinhoGramas));
-        }
-
-        // espera terminar de mexer o ninho
+        if (LeiteNinhoGramas > 0){ girarMotor(INDEX_NINHO, gramasParaGraus(LeiteNinhoGramas)); }
         delay(TEMPO_ESPERA);
-
-        // despejar whey
-
-        if (Sabor == 1){
-            girarMotor(INDEX_CHOCOLATE, gramasParaGraus(WheyGramas)); // Sabor Chocolate
-        }
-        else if (Sabor == 2){
-            girarMotor(INDEX_MORANGO, gramasParaGraus(WheyGramas)); // Sabor Morango
-        }
-        else if (Sabor == 3){
-            girarMotor(INDEX_BAUNILHA, gramasParaGraus(WheyGramas)); // Sabor Baunilha
-        }
-        else if (Sabor == 4){
-            girarMotor(INDEX_COOKIES, gramasParaGraus(WheyGramas)); // Sabor Cookies
-        }
-        else if (Sabor == 5){
-            girarMotor(INDEX_MORANGOCHOCO, gramasParaGraus(WheyGramas)); // Sabor MorangoChoco
-        }
-
-        // espera terminar de mexer o whey
+        if      (Sabor == 1){ girarMotor(INDEX_CHOCOLATE, gramasParaGraus(WheyGramas)); } // Sabor Chocolate 
+        else if (Sabor == 2){ girarMotor(INDEX_MORANGO, gramasParaGraus(WheyGramas)); } // Sabor Morango 
+        else if (Sabor == 3){ girarMotor(INDEX_BAUNILHA, gramasParaGraus(WheyGramas)); } // Sabor Baunilha 
+        else if (Sabor == 4){ girarMotor(INDEX_COOKIES, gramasParaGraus(WheyGramas)); } // Sabor Cookies 
+        else if (Sabor == 5){ girarMotor(INDEX_MORANGOCHOCO, gramasParaGraus(WheyGramas)); } // Sabor MorangoChoco
         delay(TEMPO_ESPERA);
-
-        // desligar mixer
         deligarMixer();
 
         apagarLEDVerde(); // Apaga o LED verde ao fim do preparo
-        
     }
     else if (signalRequest != -1){
         
@@ -144,9 +87,7 @@ void receiveData(){
             *   30g whey chocolate
             */
 
-            acenderLEDPresenca();
-            while (listenTCRT() == false) {delay(1);}
-            apagarLEDPresenca();
+            isPresent();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -167,9 +108,7 @@ void receiveData(){
             *   30g whey morango
             */
             
-            acenderLEDPresenca();
-            while (listenTCRT() == false) {delay(1);}
-            apagarLEDPresenca();
+            isPresent();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -190,9 +129,7 @@ void receiveData(){
             *   30g whey baunilha
             */
 
-            acenderLEDPresenca();
-            while (listenTCRT() == false) {delay(1);}
-            apagarLEDPresenca();
+            isPresent();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -213,9 +150,7 @@ void receiveData(){
             *   30g whey cookies
             */
 
-            acenderLEDPresenca();
-            while (listenTCRT() == false) {delay(1);}
-            apagarLEDPresenca();
+            isPresent();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -236,9 +171,7 @@ void receiveData(){
             *   30g whey morangochoco
             */
 
-            acenderLEDPresenca();
-            while (listenTCRT() == false) {delay(1);}
-            apagarLEDPresenca();
+            isPresent();
             ligarBomba(mlParaSegundos(300));
             ligarMixer();
             girarMotor(INDEX_NINHO, gramasParaGraus(25));
@@ -258,9 +191,7 @@ void receiveData(){
             *   30g whey baunilha
             */
 
-            acenderLEDPresenca();
-            while (listenTCRT() == false) {delay(1);}
-            apagarLEDPresenca();
+            isPresent();
             ligarBomba(mlParaSegundos(220));
             ligarMixer();
             girarMotor(INDEX_BAUNILHA, gramasParaGraus(30));
@@ -300,12 +231,4 @@ void apagarLEDVerde(){
     digitalWrite(pinoVerde, LOW);
 }
 
-void acenderLEDPresenca(){
 
-    digitalWrite(ledPresenca, HIGH);
-}
-
-void apagarLEDPresenca(){
-
-    digitalWrite(ledPresenca, LOW);
-}

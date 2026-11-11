@@ -12,8 +12,6 @@ inline constexpr int INDEX_NINHO = 5;
 inline constexpr int pinoVermelho = 15;
 inline constexpr int pinoVerde = 2;
 
-inline constexpr int ledPresenca = 34;
-
 inline constexpr int led1 = 4;
 inline constexpr int led2 = 13;
 inline constexpr int led3 = 16;
