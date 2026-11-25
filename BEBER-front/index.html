@@ -24,6 +24,27 @@
     </section>
 
     <form id="receitaForm" class="painel">
+
+            <fieldset>
+        <legend>Escolha uma receita</legend>
+
+        <label for="predefinicao">
+          Receita personalizada ou uma opção dos botões da máquina
+        </label>
+
+        <select
+          id="predefinicao"
+          style="width: 100%; padding: 12px; margin-top: 10px; font: inherit; border-radius: 8px;"
+        >
+          <option value="0">Personalizada</option>
+        </select>
+
+        <p id="resumoReceita" class="ajuda">
+          Ajuste os ingredientes abaixo.
+        </p>
+        
+      </fieldset>
+
       <fieldset>
         <legend><span class="numero">01</span> Escolha seu sabor</legend>
 
@@ -77,8 +98,8 @@
           <div class="campo">
             <label for="whey">Whey</label>
             <div class="entrada">
-              <input id="whey" type="number" min="0" max="2147483647"
-                     step="1" value="0" required>
+              <input id="whey" type="number" min="0" max="30"
+       step="1" value="0" required>
               <span>g</span>
             </div>
           </div>
@@ -86,8 +107,8 @@
           <div class="campo">
             <label for="leiteNinho">Leite Ninho</label>
             <div class="entrada">
-              <input id="leiteNinho" type="number" min="0" max="2147483647"
-                     step="1" value="0" required>
+              <input id="leiteNinho" type="number" min="0" max="20"
+       step="1" value="0" required>
               <span>g</span>
             </div>
           </div>
@@ -95,8 +116,8 @@
           <div class="campo">
             <label for="agua">Água</label>
             <div class="entrada">
-              <input id="agua" type="number" min="100" max="2147483647"
-                     step="1" value="100" required>
+              <input id="agua" type="number" min="100" max="500"
+       step="1" value="100" required>
               <span>mL</span>
             </div>
           </div>
@@ -106,10 +127,17 @@
       </fieldset>
 
       <div class="acoes">
-        <button id="preparar" type="submit">Preparar bebida →</button>
+        <button id="preparar" type="submit" disabled>
+          Preparar bebida →
+        </button>
+
         <p id="status" role="status" aria-live="polite">
-          Tudo pronto para montar sua receita.
+          Consultando disponibilidade da máquina...
         </p>
+
+        <button id="liberarPedido" type="button" hidden>
+          Conferi a máquina: liberar novo pedido
+        </button>
       </div>
     </form>
 
