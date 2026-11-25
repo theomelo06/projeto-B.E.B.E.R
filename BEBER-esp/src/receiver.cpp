@@ -34,6 +34,24 @@ void receiveData(){
     String wifiRequest = receiveWifiRequest();
     int signalRequest = receiveButtonRequest();
 
+    bool predefinidoViaWifi = false;
+
+    // Predefinições recebidas pela rede usam a rotina dos botões.
+    if (wifiRequest != "") {
+        JsonDocument tipoPedido;
+
+        if (
+            !deserializeJson(tipoPedido, wifiRequest) &&
+            tipoPedido["predefinicao"].is<int>()
+        ) {
+            signalRequest =
+                tipoPedido["predefinicao"].as<int>() * 10;
+
+            predefinidoViaWifi = true;
+            wifiRequest = "";
+        }
+    }
+
     if (wifiRequest != ""){
 
         // Há um pedido via wifi
@@ -45,9 +63,10 @@ void receiveData(){
         DeserializationError error = deserializeJson(doc, wifiRequest);
 
         if (error) {
-          apagarLEDVerde();
-          piscarLEDVermelho(); // pisca para indicar que houve erro no processamento, pedido cancelado
-          return;
+            apagarLEDVerde();
+            finalizarPedido(false);
+            piscarLEDVermelho();
+            return;
         }
 
         int WheyGramas = doc["wheyGramas"].as<int>();
@@ -66,12 +85,22 @@ void receiveData(){
         else if (Sabor == 4){ girarMotor(INDEX_COOKIES, gramasParaGraus(WheyGramas)); } // Sabor Cookies 
         else if (Sabor == 5){ girarMotor(INDEX_MORANGOCHOCO, gramasParaGraus(WheyGramas)); } // Sabor MorangoChoco
         delay(TEMPO_ESPERA);
-        deligarMixer();
+        desligarMixer();
 
         apagarLEDVerde(); // Apaga o LED verde ao fim do preparo
+        finalizarPedido();
     }
     else if (signalRequest != -1){
         
+        // Pedidos Wi-Fi já reservaram a máquina na recepção.
+        // Botões físicos precisam reservar antes de executar.
+        if (
+            !predefinidoViaWifi &&
+            !reservarPedidoLocal(signalRequest)
+        ) {
+            return;
+        }
+
         // Há um pedido pelos botões
 
         // Acende o LED verde para inidicar que o pedido está em preparo
@@ -202,6 +231,7 @@ void receiveData(){
         }
 
         apagarLEDVerde(); // Apaga o LED verde ao fim do preparo
+        finalizarPedido();
     }
 }
 

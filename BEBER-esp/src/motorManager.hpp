@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Arduino.h>    
+
 inline constexpr float GRAUS_POR_GRAMA = 1.0; // TESTAR
 inline constexpr float PASSOS_POR_VOLTA = 4075.77; // Constante de passos por volta exata do 28BYJ-48 (Half-step)
 
